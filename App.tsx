@@ -232,12 +232,25 @@ const App: React.FC = () => {
                 <p className="font-montserrat text-gray-300 leading-loose text-sm mb-8">
                   "I know you want to see and end it quickly but for the potential use please use desktop or big screen then this device."
                 </p>
-                <button
-                  onClick={() => setShowMobileWarning(false)}
-                  className="px-8 py-3 bg-white text-black font-montserrat text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors rounded-sm"
-                >
-                  I Understand
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button
+                    onClick={() => setShowMobileWarning(false)}
+                    className="px-8 py-3 bg-white/10 text-white font-montserrat text-xs font-bold uppercase tracking-widest hover:bg-white/20 transition-colors rounded-sm border border-white/20"
+                  >
+                    Go Back
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowMobileWarning(false);
+                      window.scrollTo(0, 0);
+                      playClickSound();
+                      setLoading(true);
+                    }}
+                    className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-montserrat text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity rounded-sm shadow-lg shadow-purple-500/30"
+                  >
+                    Proceed Anyway
+                  </button>
+                </div>
               </motion.div>
             </motion.div>
           )}
