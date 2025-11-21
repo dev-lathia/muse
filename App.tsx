@@ -16,6 +16,7 @@ import { Play, Sparkles, Monitor } from 'lucide-react';
 import { ConicGradientButton } from './components/ConicGradientButton';
 import { SexyScroll, SexyScrollRef } from './components/SexyScroll';
 import { TypewriterLoader } from './components/TypewriterLoader';
+import { StartScreen } from './components/StartScreen';
 
 const App: React.FC = () => {
   const [currentSection, setCurrentSection] = useState<Section>(Section.HERO);
@@ -128,12 +129,27 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [started]);
 
-  const handleStart = () => {
+  const mobileWarningShown = React.useRef(false);
+
+  const handleStart = async () => {
     // Mobile Detection
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 768 && !mobileWarningShown.current) {
       setShowMobileWarning(true);
+      mobileWarningShown.current = true;
       playClickSound(); // Optional sound feedback
       return;
+    }
+
+    // Request DeviceOrientation permission for iOS 13+
+    if (typeof DeviceOrientationEvent !== 'undefined' && (DeviceOrientationEvent as any).requestPermission) {
+      try {
+        const response = await (DeviceOrientationEvent as any).requestPermission();
+        if (response === 'granted') {
+          // Permission granted
+        }
+      } catch (e) {
+        console.error("DeviceOrientation permission error:", e);
+      }
     }
 
     // Attempt to enter fullscreen
@@ -174,34 +190,7 @@ const App: React.FC = () => {
         {/* Preloader / Start Screen */}
         <AnimatePresence>
           {!started && !loading && (
-            <motion.div
-              key="start-screen"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 1, ease: "easeInOut" } }}
-              className="fixed inset-0 z-[999] bg-black/0 flex flex-col items-center justify-center overflow-hidden"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1.5 }}
-                className="text-center"
-              >
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                  className="font-serif-custom text-lg text-gray-500 italic mb-4"
-                >
-                  For Drashti
-                </motion.p>
-                <h1 className="font-serif-custom text-6xl md:text-8xl text-white mb-12 tracking-tighter">
-                  The Vision
-                </h1>
-                <ConicGradientButton onClick={handleStart} onMouseEnter={playHoverSound}>
-                  Enter <Sparkles size={12} />
-                </ConicGradientButton>
-              </motion.div>
-            </motion.div>
+            <StartScreen onStart={handleStart} />
           )}
           {loading && (
             <TypewriterLoader key="loader" onComplete={handleLoadingComplete} />
@@ -232,25 +221,12 @@ const App: React.FC = () => {
                 <p className="font-montserrat text-gray-300 leading-loose text-sm mb-8">
                   "I know you want to see and end it quickly but for the potential use please use desktop or big screen then this device."
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button
-                    onClick={() => setShowMobileWarning(false)}
-                    className="px-8 py-3 bg-white/10 text-white font-montserrat text-xs font-bold uppercase tracking-widest hover:bg-white/20 transition-colors rounded-sm border border-white/20"
-                  >
-                    Go Back
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowMobileWarning(false);
-                      window.scrollTo(0, 0);
-                      playClickSound();
-                      setLoading(true);
-                    }}
-                    className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-montserrat text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity rounded-sm shadow-lg shadow-purple-500/30"
-                  >
-                    Proceed Anyway
-                  </button>
-                </div>
+                <button
+                  onClick={() => setShowMobileWarning(false)}
+                  className="px-8 py-3 bg-white text-black font-montserrat text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors rounded-sm"
+                >
+                  I Understand
+                </button>
               </motion.div>
             </motion.div>
           )}
