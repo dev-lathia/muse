@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drashti - The Vision</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@200;300;400&family=Montserrat:wght@200;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* Transparent 1x1px SVG cursor */
+    :root {
+      --transparent-cursor: url('data:image/svg+xml;utf8,<svg width="1" height="1" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="none"/></svg>') 0 0, auto;
+    }
+
+    html,
+    body {
+      cursor: var(--transparent-cursor) !important;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-color: #050505;
+      color: #e5e5e5;
+      font-family: 'Inter', sans-serif;
+      /* Hide Scrollbar - Firefox */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* Hide Scrollbar - Webkit */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Enforce hidden cursor globally on EVERYTHING using the transparent image trick */
+    *,
+    *::before,
+    *::after {
+      cursor: var(--transparent-cursor) !important;
+    }
+
+    .font-serif-custom {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .font-montserrat {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Animations */
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes gradient-xy {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .animate-gradient-xy {
+      background-size: 200% 200%;
+      animation: gradient-xy 15s ease infinite;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+  <script type="module" src="/index.tsx"></script>
+</head>
+
+<body style="cursor: none !important;">
+  <div id="root"></div>
+</body>
+
+</html>

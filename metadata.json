@@ -1,0 +1,7 @@
+{
+  "name": "The Vision (Drashti)",
+  "description": "An interactive, artistic digital confession/portfolio dedicated to Drashti, featuring AI-generated poetry, art showcases, and interactive visualizations.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
